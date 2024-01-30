@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BoardAppApplication<-_->",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.jyp_board.board_app.BoardAppApplication",
+            "projectName": "-_-",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
