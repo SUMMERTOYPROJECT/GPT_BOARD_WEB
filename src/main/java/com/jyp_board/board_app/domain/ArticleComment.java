@@ -1,16 +1,7 @@
 package com.jyp_board.board_app.domain;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,9 +22,9 @@ import lombok.ToString;
     @Index(columnList = "createAt"),
     @Index(columnList = "createBy")
 })
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class ArticleComment {
+public class ArticleComment extends BaseEntityConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,10 +32,10 @@ public class ArticleComment {
     @Setter @ManyToOne(optional = false)private Article article;
     @Setter @Column(nullable = false, length = 500)private String content;
 
-    @CreatedDate @Column(nullable = false)private LocalDateTime createAt; // 생성 일시
-    @CreatedBy @Column(nullable = false, length = 100) private String createBy;  //생성자
-    @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; //수정 일시
-    @LastModifiedBy @Column(nullable = false, length = 100) private String modifiedBy; //수정자
+//    @CreatedDate @Column(nullable = false)private LocalDateTime createAt; // 생성 일시
+//    @CreatedBy @Column(nullable = false, length = 100) private String createBy;  //생성자
+//    @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; //수정 일시
+//    @LastModifiedBy @Column(nullable = false, length = 100) private String modifiedBy; //수정자
 
     
     private ArticleComment(Article article, String content){
