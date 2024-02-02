@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>게시판 프로젝트</title>
 </head>
 <body>
-<header th:replace="header :: header"></header>
+<header id="header"></header>
 <main>
     <form>
         <label for="search-type" hidden>유형</label>
@@ -68,7 +68,7 @@
     </nav>
 </main>
 
-<div th:replace="~{footer :: footer}"></div>
+<footer id="footer"></footer>
 
 </body>
 </html>

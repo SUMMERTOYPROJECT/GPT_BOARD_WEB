@@ -29,9 +29,13 @@ dependencies {
 	// api를 위한 data rest
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.data:spring-data-rest-hal-explorer'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
-//	testImplementation 'org.springframework.security:spring-security-test'
 
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// 타임리프
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
