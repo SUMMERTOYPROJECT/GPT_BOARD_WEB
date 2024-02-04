@@ -2,6 +2,8 @@ package com.jyp_board.board_app.reposiroty;
 
 import java.util.List;
 
+import com.jyp_board.board_app.domain.UserAccount;
+import com.jyp_board.board_app.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,29 +22,34 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class JpaRepositoryTest {
 
-    private final ArticleRepository articleRepository;    
+    private final ArticleRepository articleRepository;
     private final ArticleCommentRepository articleCommentRepository;
+    private final UserAccountRepository userAccountRepository;
 
     public JpaRepositoryTest(
         @Autowired ArticleRepository articleRepository,
-        @Autowired ArticleCommentRepository articleCommentRepository
+        @Autowired ArticleCommentRepository articleCommentRepository,
+        @Autowired UserAccountRepository userAccountRepository
     ){
         this.articleRepository = articleRepository;
         this.articleCommentRepository = articleCommentRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("Select 테스트")    
     @Test
     void given_when_then(){
         // given
-        articleRepository.save(Article.of("테스트데이터입니다.", "테스트1", null));
+        long preCnt = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(
+                UserAccount.of("jyp", "pw", null, null, null)
+        );
+        Article article = Article.of(userAccount, "new Article", "new Content","new Hashtag");
         // when
-        List<Article> articles = articleRepository.findAll();
-        
+        articleRepository.save(article);
+
         // // then
-        assertThat(articles)
-        .isNotNull();
-//        .hasSize(2);
+        assertThat(articleRepository.count()).isEqualTo(preCnt+1);
     }
 
 

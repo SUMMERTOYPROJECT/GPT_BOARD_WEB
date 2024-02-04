@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 프로젝트</title>
+</head>
+<body>
+<header id="header"></header>
+<main>
+    <form>
+        <label for="search-type" hidden>유형</label>
+        <select id="search-type" name="search-type">
+            <option>제목</option>
+            <option>본문</option>
+            <option>id</option>
+            <option>닉네임</option>
+            <option>해시태그</option>
+        </select>
+        <label for="search-value" hidden>검색어 </label>
+        <input id="search-value" type="search" placeholder="검색어..." name="search-value">
+        <button type="submit">검색</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>해시태그</th>
+            <th>작성자</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>첫 글</td>
+            <td>Java</td>
+            <td>jyp</td>
+            <td>2024-02-01</td>
+        </tr>
+
+        <tr>
+            <td>두번째 글</td>
+            <td>Java</td>
+            <td>Spring</td>
+            <td>2024-02-01</td>
+        </tr>
+
+        <tr>
+            <td>세번째 글</td>
+            <td>Boot</td>
+            <td>jyp</td>
+            <td>2024-02-02</td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <nav>
+        <table>
+            <tr>
+                <td>이전 글</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>다음 글</td>
+            </tr>
+        </table>
+    </nav>
+</main>
+
+<footer id="footer"></footer>
+
+</body>
+</html>

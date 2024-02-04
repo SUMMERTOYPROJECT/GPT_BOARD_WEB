@@ -1,8 +1,11 @@
 package com.jyp_board.board_app.repository;
 
 import com.jyp_board.board_app.domain.QArticle;
+import com.jyp_board.board_app.dto.ArticleDto;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.jyp_board.board_app.domain.Article;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -17,6 +20,12 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>,
         // 부분 검색 등 세부적인 규칙 커스터마이징
         QuerydslBinderCustomizer<QArticle> {
+    Page<Article> findByTitleContaining(String title, Pageable pageable);
+    Page<Article> findByContentContaining(String content, Pageable pageable);
+    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+    Page<Article> findByHashtag(String hashtag, Pageable pageable);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticle root){
         bindings.excludeUnlistedProperties(true);
