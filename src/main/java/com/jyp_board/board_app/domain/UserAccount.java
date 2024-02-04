@@ -11,8 +11,8 @@ import java.util.Objects;
 @Table(
         indexes = {
                 @Index(columnList = "email", unique = true),
-                @Index(columnList = "createdAt"),
-                @Index(columnList = "createdBy")
+                @Index(columnList = "createAt"),
+                @Index(columnList = "createBy")
         })
 @Entity
 public class UserAccount extends BaseEntityConfig {
@@ -25,7 +25,7 @@ public class UserAccount extends BaseEntityConfig {
     @Setter @Column(length = 100) private String nickname;
     @Setter private String memo;
 
-    private UserAccount(String userId, String userPassword, String email, String nickname, String memo, String createdBy) {
+    private UserAccount(String userId, String userPassword, String email, String nickname, String memo, String createBy) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
@@ -37,8 +37,8 @@ public class UserAccount extends BaseEntityConfig {
         return UserAccount.of(userId, userPassword, email, nickname, memo, null);
     }
 
-    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo, String createdBy) {
-        return new UserAccount(userId, userPassword, email, nickname, memo, createdBy);
+    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo, String createBy) {
+        return new UserAccount(userId, userPassword, email, nickname, memo, createBy);
     }
 
     @Override

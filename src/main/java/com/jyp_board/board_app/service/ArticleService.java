@@ -48,11 +48,11 @@ public class ArticleService {
 
     }
 
-    public ArticleDto searchArticle(Long articleId) {
+    public ArticleWithCommentDto searchArticle(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow(
                 () -> new IllegalArgumentException("There is no Entity")
         );
-        return ArticleDto.from(article);
+        return ArticleWithCommentDto.from(article);
     }
 
     public void saveArticle(ArticleDto dto) {

@@ -4,6 +4,7 @@ import com.jyp_board.board_app.domain.Article;
 import com.jyp_board.board_app.domain.type.SearchType;
 import com.jyp_board.board_app.dto.ArticleDto;
 import com.jyp_board.board_app.dto.ArticleUpdateDto;
+import com.jyp_board.board_app.dto.ArticleWithCommentDto;
 import com.jyp_board.board_app.dto.UserAccountDto;
 import com.jyp_board.board_app.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -70,7 +71,7 @@ class ArticleServiceTest {
         // given
         given(articleRepository.findById(articleId)).willReturn(Optional.of(dto.toEntity()));
         // when
-        ArticleDto article = sut.searchArticle(articleId);
+        ArticleWithCommentDto articleWithCommentDto = sut.searchArticle(articleId);
         // then
         then(articleRepository).should().findById(articleId);
     }
