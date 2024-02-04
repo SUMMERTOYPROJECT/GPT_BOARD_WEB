@@ -2,6 +2,7 @@ import  { useState } from 'react';
 import styled from 'styled-components';
 import { postArticlesApi } from '../api/Articles';
 import mainImage from "../../assets/mainImage.jpg";
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 `;
@@ -95,9 +96,9 @@ export default function ArticlesWritePage() {
     const [content, setContent] = useState('');
     const [createBy, setCreateBy] = useState('');
     const [hashtag, setHashtag] = useState('');
-
+    const navigate = useNavigate();
     const onClick = () =>{
-        alert("버튼이 클릭되었습니다!");
+        // alert("버튼이 클릭되었습니다!");
         console.log("백엔드에 POST 요청 보내기")
         const Article = {
             title: "title",
@@ -105,11 +106,22 @@ export default function ArticlesWritePage() {
             hashtag: "hasheasd",
             createBy: "createBy",
         }
-        postArticlesApi(Article).then(
-            (response) =>  console.log(response)
-        ).catch(
-            (e) => console.log(e)
-        )
+        const handleSubmit = async () => {
+            try {
+                const response = await postArticlesApi(Article);
+        
+                if (response.status === 201) {
+                    window.alert('등록 완료!!');
+                    navigate('/articles');
+                    console.log('등록 완료');
+                } else {
+                    console.log('등록 실패');
+                }
+            } catch (error) {
+                console.log('에러 발생:', error);
+            }
+        }
+        handleSubmit()
     }
 
     return (
