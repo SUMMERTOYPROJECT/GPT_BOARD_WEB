@@ -53,6 +53,8 @@ public class ArticleService {
         articleRepository.save(article);
     }
 
+    
+
     /* --- ----- ---- 리팩토링 중 --- -*/
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticles(SearchType searchType, String keyword, Pageable pageable) {

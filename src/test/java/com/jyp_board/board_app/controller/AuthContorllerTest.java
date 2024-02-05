@@ -31,4 +31,5 @@ public class AuthContorllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
+
 }
