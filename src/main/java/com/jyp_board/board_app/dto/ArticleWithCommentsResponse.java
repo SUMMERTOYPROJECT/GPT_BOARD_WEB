@@ -1,5 +1,7 @@
 package com.jyp_board.board_app.dto;
 
+import com.jyp_board.board_app.dto.response.ArticleCommentResponse;
+
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
