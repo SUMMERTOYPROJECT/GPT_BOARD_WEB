@@ -55,7 +55,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/articles", "/signup").permitAll()
+                        .requestMatchers("/login", "/api/articles", "/api/sign-up").permitAll()
                         .anyRequest().authenticated());
 
         //JWTFilter 등록

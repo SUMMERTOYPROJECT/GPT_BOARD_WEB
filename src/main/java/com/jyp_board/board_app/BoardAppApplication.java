@@ -24,7 +24,8 @@ public class BoardAppApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedMethods("*")
-						.allowedOrigins("http://localhost:5173");
+						.allowedOrigins("http://localhost:5173")
+						.exposedHeaders("Authorization");
 			}
 		};
 	}
