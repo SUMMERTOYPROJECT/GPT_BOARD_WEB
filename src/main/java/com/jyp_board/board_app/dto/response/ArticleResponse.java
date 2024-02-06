@@ -1,9 +1,8 @@
-package com.jyp_board.board_app.dto;
+package com.jyp_board.board_app.dto.response;
 
-import com.jyp_board.board_app.domain.Article;
+import com.jyp_board.board_app.dto.ArticleDto;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public record ArticleResponse(
         Long id,

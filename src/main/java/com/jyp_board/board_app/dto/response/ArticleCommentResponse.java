@@ -1,4 +1,6 @@
-package com.jyp_board.board_app.dto;
+package com.jyp_board.board_app.dto.response;
+
+import com.jyp_board.board_app.dto.ArticleCommentDto;
 
 import java.time.LocalDateTime;
 

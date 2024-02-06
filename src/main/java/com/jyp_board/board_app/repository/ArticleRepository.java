@@ -11,9 +11,9 @@ import com.jyp_board.board_app.domain.Article;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+//import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource
+//@RepositoryRestResource
 public interface ArticleRepository extends
         JpaRepository<Article, Long>,
         // 모든 필드에 대한 검색 기능을 추가해줌

@@ -1,7 +1,7 @@
 package com.jyp_board.board_app.controller;
 
 import com.jyp_board.board_app.domain.type.SearchType;
-import com.jyp_board.board_app.dto.ArticleResponse;
+import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.dto.ArticleWithCommentsResponse;
 import com.jyp_board.board_app.service.ArticleService;
 import lombok.RequiredArgsConstructor;

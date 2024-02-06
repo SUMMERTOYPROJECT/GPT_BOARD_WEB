@@ -1,13 +1,19 @@
 package com.jyp_board.board_app.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.jyp_board.board_app.dto.UserAccountDto;
+import com.jyp_board.board_app.service.UserAccountService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RequestMapping("/api")
+@RequiredArgsConstructor
+@RestController
 public class MainController {
-    @GetMapping("/")
-    public String root(){
-        return "forward:/articles";
-    }
+    private final UserAccountService userAccountService;
 
+    @PostMapping("/sign-up")
+    public ResponseEntity<String> join(@RequestBody UserAccountDto userAccountDto){
+        return userAccountService.joinUser(userAccountDto);
+    }
 }
