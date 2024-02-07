@@ -8,11 +8,11 @@ public record ArticleRequest(
         String title,
         String content,
         String hashtag,
-        UserAccount userAccount
+        String userId
 
 ) {
-    public static ArticleRequest of(String title, String content, String hashtag, UserAccount userAccount) {
-        return new ArticleRequest(title, content, hashtag, userAccount);
+    public static ArticleRequest of(String title, String content, String hashtag, String userId) {
+        return new ArticleRequest(title, content, hashtag, userId);
     }
 
 

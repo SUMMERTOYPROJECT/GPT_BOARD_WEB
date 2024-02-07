@@ -1,6 +1,7 @@
 package com.jyp_board.board_app.service;
 
 import com.jyp_board.board_app.domain.Article;
+import com.jyp_board.board_app.domain.UserAccount;
 import com.jyp_board.board_app.domain.type.SearchType;
 import com.jyp_board.board_app.dto.ArticleDto;
 import com.jyp_board.board_app.dto.request.ArticleRequest;
@@ -8,13 +9,16 @@ import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.ArticleWithCommentDto;
 import com.jyp_board.board_app.repository.ArticleRepository;
+import com.jyp_board.board_app.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpRequestHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final UserAccountRepository userAccountRepository;
 
     // READ 메소드 구현
     @Transactional(readOnly = true)
@@ -43,14 +48,21 @@ public class ArticleService {
 
     // CREATE 메소드 구현
 
-    public void createArticle(ArticleRequest articleRequest){
-        Article article = Article.of(
-                articleRequest.userAccount(),
-                articleRequest.title(),
-                articleRequest.content(),
-                articleRequest.hashtag()
-        );
-        articleRepository.save(article);
+    public ResponseEntity<String> createArticle(ArticleRequest articleRequest){
+        boolean isUser = userAccountRepository.existsByUserId(articleRequest.userId());
+        if(isUser) {
+            UserAccount user = userAccountRepository.findByUserId(articleRequest.userId());
+            Article article = Article.of(
+                    user,
+                    articleRequest.title(),
+                    articleRequest.content(),
+                    articleRequest.hashtag()
+            );
+            articleRepository.save(article);
+            return ResponseEntity.ok("게시글 작성이 완료되었습니다.");
+        }
+        return ResponseEntity.badRequest().body("존재하지 않은 회원입니다.");
+
     }
 
     

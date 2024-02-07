@@ -4,6 +4,7 @@ import com.jyp_board.board_app.dto.request.ArticleRequest;
 import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,15 +26,9 @@ public class MyArticleController {
     }
 
     @PostMapping("/articles")
-    public void createArticle(@RequestBody ArticleRequest articleRequest){
+    public ResponseEntity<String> createArticle(@RequestBody ArticleRequest articleRequest){
         // 게시글을 생성할 때 필요한 데이터
         // title, content, hashtag(null 가능), userAccount....
-        articleService.createArticle(articleRequest);
+        return articleService.createArticle(articleRequest);
     }
-
-
-
-
-
-
 }
