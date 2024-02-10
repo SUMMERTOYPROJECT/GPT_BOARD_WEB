@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.HttpRequestHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,9 +64,39 @@ public class ArticleService {
 
     }
 
-    
+    // UPDATE 구현
+
+    public ResponseEntity<String> updateArticle(ArticleUpdateDto dto) {
+        try{
+            Article article = articleRepository.getReferenceById(dto.id());
+            if (dto.title() != null){article.setTitle(dto.title());}
+            if (dto.content() != null){article.setContent(dto.content());}
+            article.setHashtag(dto.hashtag());
+            return ResponseEntity.ok("게시글 수정이 성공했습니다.");
+//        articleRepository.save(article); #-- 알아서 감지하므로 명시하지 않아도 된다.
+        }
+        catch (EntityNotFoundException e){
+            log.warn("게시글 정보를 찾지 못했습니다.");
+            return ResponseEntity.badRequest().body("존재하지 않은 게시글입니다.");
+        }
+    }
+
+    // delete
+    public ResponseEntity<String> deleteArticle(long articleId) {
+        try{
+            Article article = articleRepository.getReferenceById(articleId);
+            articleRepository.deleteById(articleId);
+            return ResponseEntity.ok("게시글이 삭제 되었습니다.");
+        }
+        catch (EntityNotFoundException e){
+            log.warn("게시글 정보를 찾지 못했습니다.");
+            return ResponseEntity.badRequest().body("게시글 정보를 찾지 못했습니다.");
+        }
+    }
 
     /* --- ----- ---- 리팩토링 중 --- -*/
+
+
     @Transactional(readOnly = true)
     public Page<ArticleDto> searchArticles(SearchType searchType, String keyword, Pageable pageable) {
         if (searchType == null || keyword == null || keyword.isBlank()){
@@ -88,9 +117,6 @@ public class ArticleService {
         return articleRepository.findById(articleId)
                 .map(ArticleWithCommentDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다."));
-
-
-
     }
 
     public ArticleWithCommentDto searchArticle(Long articleId) {
@@ -99,34 +125,5 @@ public class ArticleService {
         );
         return ArticleWithCommentDto.from(article);
     }
-
-    public void saveArticle(ArticleDto dto) {
-        articleRepository.save(dto.toEntity());
-    }
-
-    public void updateArticle(ArticleUpdateDto dto) {
-        try{
-            Article article = articleRepository.getReferenceById(dto.id());
-            if (dto.title() != null){article.setTitle(dto.title());}
-            if (dto.content() != null){article.setContent(dto.content());}
-            article.setHashtag(dto.hashtag());
-//        articleRepository.save(article); #-- 알아서 감지하므로 명시하지 않아도 된다.
-        }
-        catch (EntityNotFoundException e){
-            log.warn("게시글 정보를 찾지 못했습니다.");
-        }
-
-    }
-
-    public void deleteArticle(long articleId) {
-        try{
-            Article article = articleRepository.getReferenceById(articleId);
-            articleRepository.deleteById(articleId);
-        }
-        catch (EntityNotFoundException e){
-            log.warn("게시글 정보를 찾지 못했습니다.");
-        }
-    }
-
 
 }

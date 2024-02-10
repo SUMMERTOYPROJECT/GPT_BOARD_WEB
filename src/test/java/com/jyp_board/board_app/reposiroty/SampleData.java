@@ -3,6 +3,7 @@ package com.jyp_board.board_app.reposiroty;
 import com.jyp_board.board_app.domain.UserAccount;
 import com.jyp_board.board_app.dto.ArticleDto;
 import com.jyp_board.board_app.dto.UserAccountDto;
+import com.jyp_board.board_app.dto.request.ArticleRequest;
 import com.jyp_board.board_app.repository.UserAccountRepository;
 import com.jyp_board.board_app.service.ArticleService;
 import org.junit.jupiter.api.Test;
@@ -29,16 +30,14 @@ public class SampleData {
                     LocalDateTime.now(), "me"
             );
             accountRepository.save(userAccountDto.toEntity());
-            ArticleDto articleDto = new ArticleDto(
-                    (long) (i+1),
-                    userAccountDto,
-                    LocalDateTime.now(),
-                    LocalDateTime.now(),
-                    "me","me",
-                    (i+1) + "번째 title", (i+1) + "번째 content", (i+1) + "번째 hash"
+            ArticleRequest articleDto = ArticleRequest.of(
+                    "title",
+                    "content",
+                    "hashtag",
+                    "userId"
             );
 
-            articleService.saveArticle(articleDto);
+            articleService.createArticle(articleDto);
         }
 
 
