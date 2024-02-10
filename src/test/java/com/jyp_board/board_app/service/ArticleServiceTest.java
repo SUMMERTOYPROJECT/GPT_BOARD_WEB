@@ -6,6 +6,7 @@ import com.jyp_board.board_app.dto.ArticleDto;
 import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.ArticleWithCommentDto;
 import com.jyp_board.board_app.dto.UserAccountDto;
+import com.jyp_board.board_app.dto.request.ArticleRequest;
 import com.jyp_board.board_app.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -84,14 +85,12 @@ class ArticleServiceTest {
                 "userId", "password", "email", "nickName", "memo"
         );
 
-        ArticleDto dto = ArticleDto.of(1L, userAccountDto, LocalDateTime.now(), LocalDateTime.now(),
-                "jyp", "jyp",
-                "title", "content", "hashtag");
+        ArticleRequest dto = ArticleRequest.of("title", "content", "has","userId");
 
         given(articleRepository.save(any(Article.class))).willReturn(null);
 
         // when
-        sut.saveArticle(dto);
+        sut.createArticle(dto);
         // then
         then(articleRepository).should().save(any(Article.class));
     }

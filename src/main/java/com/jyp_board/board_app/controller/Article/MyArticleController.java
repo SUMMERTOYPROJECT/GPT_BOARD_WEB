@@ -1,5 +1,6 @@
 package com.jyp_board.board_app.controller.Article;
 
+import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.request.ArticleRequest;
 import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.service.ArticleService;
@@ -31,4 +32,19 @@ public class MyArticleController {
         // title, content, hashtag(null 가능), userAccount....
         return articleService.createArticle(articleRequest);
     }
+
+    @PutMapping("/articles/{id}")
+    public ResponseEntity<String> updateArticle(@RequestBody ArticleUpdateDto updateDto, @PathVariable(name = "id") Long id){
+        return articleService.updateArticle(updateDto);
+    }
+
+    @DeleteMapping("/articles/{id}")
+    public ResponseEntity<String> deleteArticle(@PathVariable(name = "id") Long id){
+        return articleService.deleteArticle(id);
+    }
+
+//    @GetMapping("articles/{search-type}")
+
+
+
 }
