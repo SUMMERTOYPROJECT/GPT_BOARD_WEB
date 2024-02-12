@@ -1,31 +1,36 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import HomePage from "./routes/HomePage"
-import Articles from "./routes/ArticlesPage"
 import ArticlesWritePage from "./routes/ArticlesWritePage"
 import Login from "./routes/Login"
 import SignUp from "./routes/Signup"
 import AuthProvider from "./security/AuthContext"
+import ArticleDetail from "./routes/ArticleDetail"
+import AriticlesHome from "./routes/AriticlesHome"
+import ArticleCorrection from "./routes/AriticleCorrection"
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage/>,
+    element: <Login/>,
   },
   {
     path: "/articles",
-    element: <Articles/>,
+    element: <AriticlesHome/>,
   },
   {
     path: "/articles/save",
     element: <ArticlesWritePage/>
   },
   {
-    path:"/login",
-    element:<Login/>
-  },
-  {
     path:"/signup",
     element:<SignUp/>
+  },
+  {
+    path:"/articles/:id",
+    element:<ArticleDetail/>
+  },
+  {
+    path:"/articles/change",
+    element:<ArticleCorrection/>
   }
 ])
 

@@ -1,42 +1,11 @@
 import  { useState } from 'react';
 import styled from 'styled-components';
 import { postArticlesApi } from '../api/Articles';
-import mainImage from "../../assets/mainImage.jpg";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../security/AuthContext';
+import topImage from "../../assets/give2.png";
 
 const Wrapper = styled.div`
-`;
-const TopVer = styled.nav`
-    background-color: #333;
-    //overflow: hidden;
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-
-`;
-const TopButton = styled.button`
-    background: none;
-    color: #ccc;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    transition: color 0.3s;
-    &:hover {
-        color: gray;
-    }
-`;
-const HeaderContainer = styled.div`
-    background-image: url(${mainImage});
-    background-size: cover;
-    background-position: center;
-    padding: 50px;
-    margin-bottom: 10px;
-`;
-const HeaderText = styled.h2`
-    color: white;
-    margin-left: -30px;
-    transform: translateY(200%);
 `;
 const Component = styled.div`
     display: flex;
@@ -45,6 +14,16 @@ const Component = styled.div`
     //align-items: center;
     //justify-content: center;
 `;
+const HeaderContainer = styled.div`
+    background-image: url(${topImage});
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 23vh;
+    width: 43vw;
+    margin-bottom: 0rem;
+    margin-left: 27rem;
+`;
 const InputTitle = styled.input`
     width: 60%;
     padding: 10px;
@@ -52,6 +31,11 @@ const InputTitle = styled.input`
     border-radius: 5px;
     margin-right: 10%;
     margin-bottom: 10px; 
+
+    &:focus {
+    outline: none;
+    border-color: #e59a0e;
+    }  
 `;
 const InputContent = styled.textarea`
     width: 60%;
@@ -60,13 +44,11 @@ const InputContent = styled.textarea`
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px; 
-`;
-const InputCreateBy = styled.input`
-    width: 60%;
-    padding:  10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 10px; 
+
+    &:focus {
+    outline: none;
+    border-color: #e59a0e;
+    }  
 `;
 const InputHashtag = styled.input`
     width: 60%;
@@ -74,43 +56,48 @@ const InputHashtag = styled.input`
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px; 
+
+    &:focus {
+    outline: none;
+    border-color: #e59a0e;
+    }  
 `;
 const WriteButton = styled.button`
     width: 10%;
     height: 40px;
     margin-left: 47%;
     border-radius: 5px;
-    background-color: #333;
+    background-color: #007bff;
     color: white;
     font-size: 20px;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
     &:hover {
-        background-color: gray;
+        background-color: #e59a0e;
     }
 `;
 
 export default function ArticlesWritePage() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [createBy, setCreateBy] = useState('');
     const [hashtag, setHashtag] = useState('');
+    const auth = useAuth();
     const navigate = useNavigate();
     const onClick = () =>{
         // alert("버튼이 클릭되었습니다!");
         console.log("백엔드에 POST 요청 보내기")
         const Article = {
-            title: "title",
-            content: "content",
-            hashtag: "hasheasd",
-            createBy: "createBy",
+            title: title,
+            content: content,
+            hashtag: hashtag,
+            userId: auth.username,
         }
         const handleSubmit = async () => {
             try {
                 const response = await postArticlesApi(Article);
         
-                if (response.status === 201) {
+                if (response.status === 200) {
                     window.alert('등록 완료!!');
                     navigate('/articles');
                     console.log('등록 완료');
@@ -126,23 +113,13 @@ export default function ArticlesWritePage() {
 
     return (
         <Wrapper>
-            <TopVer>
-                <TopButton>카테고리1</TopButton>
-                <TopButton>카테고리2</TopButton>
-                <TopButton>카테고리3</TopButton>
-                <TopButton>카테고리4</TopButton>
-            </TopVer>
-            <HeaderContainer>
-                <HeaderText>Delivering all IT news from around the world</HeaderText>
-            </HeaderContainer>
+            <HeaderContainer/>
             <Component>
-                <tr><InputTitle value={title} onChange={(e) => setTitle(e.target.value)} placeholder="제목" /></tr>
-                <tr><InputCreateBy value={createBy} onChange={(e) => setCreateBy(e.target.value)} placeholder="작성자" /></tr>
-                <tr><InputContent value={content} onChange={(e) => setContent(e.target.value)} placeholder="내용" /></tr>
-                <tr><InputHashtag value={hashtag} onChange={(e) => setHashtag(e.target.value)} placeholder="#" /></tr>
+                <InputTitle value={title} onChange={(e) => setTitle(e.target.value)} placeholder="제목" />
+                <InputContent value={content} onChange={(e) => setContent(e.target.value)} placeholder="내용" />
+                <InputHashtag value={hashtag} onChange={(e) => setHashtag(e.target.value)} placeholder="#" />
             </Component>
             <WriteButton onClick={onClick}>작성완료</WriteButton>
         </Wrapper>
     );
 }
-

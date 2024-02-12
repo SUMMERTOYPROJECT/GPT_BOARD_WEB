@@ -1,48 +1,16 @@
 import { useEffect, useState  } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styled from "styled-components"
 import { getArticlesApi } from "../api/Articles";
-import mainImage from "../../assets/mainImage.jpg";
 
 interface Article {
     title: string;
     hashtag: string;
-    createBy: string;
+    nickname: string;
     createAt: string;
+    id: string;
 }
 
-const TopVer = styled.nav`
-    background-color: #333;
-    //overflow: hidden;
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-
-`;
-const TopButton = styled.button`
-    background: none;
-    color: #ccc;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    transition: color 0.3s;
-    &:hover {
-        color: gray;
-    }
-`;
-const HeaderContainer = styled.div`
-  background-image: url(${mainImage});
-  background-size: cover;
-  background-position: center;
-  padding: 50px;
-  margin-bottom: 10px;
-`;
-const HeaderText = styled.h2`
-  color: white;
-  margin-left: -30px;
-  transform: translateY(200%);
-`;
 const Wrapper = styled.div`
     //display: flex;
 `;
@@ -116,6 +84,15 @@ const Td2 = styled.td`
     padding: 8px;
     text-align: center;
 `;
+const StyledLink = styled(Link)`
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+        color: gray;
+        text-decoration: underline;
+    }
+`;
 
 export default function Articles() {
     const [articles, setArticles] = useState<Article[]>([])
@@ -125,7 +102,8 @@ export default function Articles() {
         const fetchData = async () => {
             try {
                 const response = await getArticlesApi();
-                setArticles(response.data._embedded.articles)
+                console.log(response.data)
+                setArticles(response.data)
             } catch (error) {
                 // 에러 처리
             }
@@ -140,36 +118,32 @@ export default function Articles() {
     };
 
     return(
-        <Wrapper>
-            <TopVer>
-                <TopButton>카테고리1</TopButton>
-                <TopButton>카테고리2</TopButton>
-                <TopButton>카테고리3</TopButton>
-                <TopButton>카테고리4</TopButton>
-            </TopVer>
-            <HeaderContainer>
-                <HeaderText>Delivering all IT news from around the world</HeaderText>
-            </HeaderContainer>
-            
+        <Wrapper>        
             <Table>
                 <thead>
                 <tr>
                     <Th>제목</Th>
-                    {/* <Th>|</Th> */}
                     <Th>해시테그</Th>
                     <Th>작성자</Th>
                     <Th>작성일</Th>
                 </tr>
                 </thead>
                 <tbody>
-                    {articles.map((article, index) => (
-                        <tr key={index}>
-                        <Td1>{article.title}</Td1>
-                        <Td2>{article.hashtag}</Td2>
-                        <Td2>{article.createBy}</Td2>
-                        <Td2>{article.createAt}</Td2>
-                        </tr>
-                    ))}
+                    {articles.map((article, index) => {
+                        const formattedDate = article.createAt.split('T')[0]; // 'T'를 기준으로 나누기
+                        return (
+                            <tr key={index}>
+                                <Td1>
+                                    <StyledLink to={`/articles/${article.id}`}> {/* ${article.id} */}
+                                        {article.title}
+                                    </StyledLink>
+                                </Td1>
+                                <Td2>{article.hashtag}</Td2>
+                                <Td2>{article.nickname}</Td2>
+                                <Td2>{formattedDate}</Td2> {/* 변환된 날짜 사용 */}
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </Table>
             <ButtonContainer>
