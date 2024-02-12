@@ -1,6 +1,7 @@
 package com.jyp_board.board_app.repository;
 
 import com.jyp_board.board_app.domain.QArticleComment;
+import com.jyp_board.board_app.domain.UserAccount;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,7 @@ public interface ArticleCommentRepository extends
         QuerydslBinderCustomizer<QArticleComment>
 {
     List<ArticleComment>findByArticle_Id(Long articleId);
+    List<ArticleComment>findArticleCommentsByUserAccount(UserAccount userAccount);
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root){
         bindings.excludeUnlistedProperties(true);
