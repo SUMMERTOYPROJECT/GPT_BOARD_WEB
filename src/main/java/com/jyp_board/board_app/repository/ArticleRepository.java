@@ -11,6 +11,8 @@ import com.jyp_board.board_app.domain.Article;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+
+import java.util.List;
 //import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 //@RepositoryRestResource
@@ -20,11 +22,16 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>,
         // 부분 검색 등 세부적인 규칙 커스터마이징
         QuerydslBinderCustomizer<QArticle> {
-    Page<Article> findByTitleContaining(String title, Pageable pageable);
-    Page<Article> findByContentContaining(String content, Pageable pageable);
-    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
-    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
-    Page<Article> findByHashtag(String hashtag, Pageable pageable);
+//    Page<Article> findByTitleContaining(String title, Pageable pageable);
+//    Page<Article> findByContentContaining(String content, Pageable pageable);
+//    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+//    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+//    Page<Article> findByHashtag(String hashtag, Pageable pageable);
+    List<Article> findByTitleContaining(String title);
+    List<Article> findByContentContaining(String content);
+    List<Article> findByUserAccount_UserIdContaining(String userId);
+    List<Article> findByUserAccount_NicknameContaining(String nickname);
+    List<Article> findByHashtag(String hashtag);
 
     @Override
     default void customize(QuerydslBindings bindings, QArticle root){

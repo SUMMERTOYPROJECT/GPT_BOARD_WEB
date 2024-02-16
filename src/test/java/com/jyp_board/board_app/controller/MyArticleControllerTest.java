@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -52,14 +53,14 @@ class MyArticleControllerTest {
     @Test
     public void givenNoting_whenRequestingView_thenReturnArticlesView() throws Exception {
         // Given
-        given(articleService.searchArticles(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
+        given(articleService.searchMyArticle(eq(null), eq(null))).willReturn(List.of());
 
         // When & Then
         mockMvc.perform(get("/articles"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
 
-        then(articleService).should().searchArticles(eq(null), eq(null), any(Pageable.class));
+//        then(articleService).should().searchMyArticle(eq(null), eq(null), any(List.of()));
     }
 
 

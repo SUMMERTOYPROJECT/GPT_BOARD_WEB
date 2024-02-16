@@ -94,23 +94,49 @@ public class ArticleService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<ArticleResponse> searchMyArticle(SearchType searchType, String keyword){
+        if(searchType == null || keyword == null || keyword.isBlank()){
+            return articleRepository.findAll().stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+        }
+        switch (searchType){
+            case TITLE -> {
+                return articleRepository.findByTitleContaining(keyword).stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+            }
+            case CONTENT-> {
+                return articleRepository.findByContentContaining(keyword).stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+            }
+            case ID -> {
+                return articleRepository.findByUserAccount_UserIdContaining(keyword).stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+            }
+            case NICKNAME -> {
+                return articleRepository.findByUserAccount_NicknameContaining(keyword).stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+            }
+            case HASHTAG -> {
+                return articleRepository.findByHashtag("#" + keyword).stream().map(ArticleDto::from).map(ArticleResponse::from).collect(Collectors.toList());
+            }
+        }
+        return null;
+    }
+
+
     /* --- ----- ---- 리팩토링 중 --- -*/
 
 
-    @Transactional(readOnly = true)
-    public Page<ArticleDto> searchArticles(SearchType searchType, String keyword, Pageable pageable) {
-        if (searchType == null || keyword == null || keyword.isBlank()){
-            return articleRepository.findAll(pageable).map(ArticleDto::from);
-        }
-        switch (searchType){
-            case TITLE -> articleRepository.findByTitleContaining(keyword, pageable).map(ArticleDto::from);
-            case CONTENT-> articleRepository.findByContentContaining(keyword, pageable).map(ArticleDto::from);
-            case ID -> articleRepository.findByUserAccount_UserIdContaining(keyword, pageable).map(ArticleDto::from);
-            case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(keyword, pageable).map(ArticleDto::from);
-            case HASHTAG -> articleRepository.findByHashtag("#" + keyword, pageable).map(ArticleDto::from);
-        };
-        return Page.empty();
-    }
+//    @Transactional(readOnly = true)
+//    public Page<ArticleDto> searchArticles(SearchType searchType, String keyword, Pageable pageable) {
+//        if (searchType == null || keyword == null || keyword.isBlank()){
+//            return articleRepository.findAll(pageable).map(ArticleDto::from);
+//        }
+//        switch (searchType){
+//            case TITLE -> articleRepository.findByTitleContaining(keyword, pageable).map(ArticleDto::from);
+//            case CONTENT-> articleRepository.findByContentContaining(keyword, pageable).map(ArticleDto::from);
+//            case ID -> articleRepository.findByUserAccount_UserIdContaining(keyword, pageable).map(ArticleDto::from);
+//            case NICKNAME -> articleRepository.findByUserAccount_NicknameContaining(keyword, pageable).map(ArticleDto::from);
+//            case HASHTAG -> articleRepository.findByHashtag("#" + keyword, pageable).map(ArticleDto::from);
+//        };
+//        return Page.empty();
+//    }
 
     @Transactional(readOnly = true)
     public ArticleWithCommentDto getArticleWithComment(Long articleId){

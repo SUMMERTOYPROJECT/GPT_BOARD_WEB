@@ -42,9 +42,4 @@ public class MyArticleController {
     public ResponseEntity<String> deleteArticle(@PathVariable(name = "id") Long id){
         return articleService.deleteArticle(id);
     }
-
-//    @GetMapping("articles/{search-type}")
-
-
-
 }

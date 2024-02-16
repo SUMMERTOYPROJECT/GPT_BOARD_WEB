@@ -7,6 +7,7 @@ import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.ArticleWithCommentDto;
 import com.jyp_board.board_app.dto.UserAccountDto;
 import com.jyp_board.board_app.dto.request.ArticleRequest;
+import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.repository.ArticleRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -39,7 +41,7 @@ class ArticleServiceTest {
         Pageable pageable = Pageable.ofSize(20);
         given(articleRepository.findAll(pageable)).willReturn(Page.empty());
         // when
-        Page<ArticleDto> articles = sut.searchArticles(null, "keyword", pageable);
+        List<ArticleResponse> articles = sut.searchMyArticle(null, "keyword");
         // then
         assertThat(articles).isEmpty();
         then(articleRepository).should().findAll(pageable);
@@ -53,13 +55,13 @@ class ArticleServiceTest {
         SearchType searchType = SearchType.TITLE;
         String keyword = "title";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitleContaining(keyword, pageable)).willReturn(Page.empty());
+        given(articleRepository.findByTitleContaining(keyword)).willReturn(null);
 
         // when
-        Page<ArticleDto> articles = sut.searchArticles(searchType, keyword, pageable);
+        List<ArticleResponse> articles = sut.searchMyArticle(searchType, keyword);
         // then
         assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitleContaining(keyword, pageable);
+        then(articleRepository).should().findByTitleContaining(keyword);
     }
 
 
