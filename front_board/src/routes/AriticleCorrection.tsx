@@ -1,8 +1,9 @@
-import  { useState } from 'react';
+
+import  { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { postArticlesApi } from '../api/Articles';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../security/AuthContext';
+import { getArticleApi, putArticleApi } from '../api/Articles';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+// import { useAuth } from '../security/AuthContext';
 import topImage from "../../assets/give.png";
 
 const Wrapper = styled.div`
@@ -67,23 +68,40 @@ export default function ArticleCorrection() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [hashtag, setHashtag] = useState('');
-    const auth = useAuth();
+    const { id } = useParams();
+    // const auth = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchArticle = async () => {
+            try {
+                const response = await getArticleApi(id); // API 호출
+                setContent(response.data.content)
+                setHashtag(response.data.hashtag)
+                setTitle(response.data.title)
+            } catch (error) {
+                console.log(error)
+            }
+        };
+
+        fetchArticle();
+    }, [id]);
+
+    
     const onClick = () =>{
         console.log("백엔드에 POST 요청 보내기")
         const Article = {
+            id: id,
             title: title,
             content: content,
             hashtag: hashtag,
-            userId: auth.username,
         }
         const handleSubmit = async () => {
             try {
-                const response = await postArticlesApi(Article);
-        
+                const response = await putArticleApi(id, Article);
                 if (response.status === 200) {
                     window.alert('수정 완료!!');
-                    navigate('/articles');
+                    navigate(`/articles/${id}`)
                     console.log('수정 완료');
                 } else {
                     console.log('수정 실패');

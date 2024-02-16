@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import { RouterProvider, createBrowserRouter} from "react-router-dom"
 import ArticlesWritePage from "./routes/ArticlesWritePage"
 import Login from "./routes/Login"
 import SignUp from "./routes/Signup"
@@ -6,6 +6,7 @@ import AuthProvider from "./security/AuthContext"
 import ArticleDetail from "./routes/ArticleDetail"
 import AriticlesHome from "./routes/AriticlesHome"
 import ArticleCorrection from "./routes/AriticleCorrection"
+import ArticleSearchPage from "./routes/ArticleSearchPage"
 
 const router = createBrowserRouter([
   {
@@ -29,17 +30,23 @@ const router = createBrowserRouter([
     element:<ArticleDetail/>
   },
   {
-    path:"/articles/change",
+    path:"/articles/:id/change",
     element:<ArticleCorrection/>
+  },
+  {
+    path:"/articles/search",
+    element:<ArticleSearchPage/>
   }
 ])
 
 function App() {
 
   return (
-    <AuthProvider>
-      <RouterProvider router = {router}/>
-    </AuthProvider>
+    <>
+      <AuthProvider>
+        <RouterProvider router = {router}/>
+      </AuthProvider>
+  </>
   )
 }
 

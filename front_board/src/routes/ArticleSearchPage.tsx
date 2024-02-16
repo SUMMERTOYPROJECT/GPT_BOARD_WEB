@@ -1,10 +1,8 @@
-import { ReactEventHandler, ReactHTML, ReactHTMLElement, useEffect, useState  } from "react";
-import { useNavigate, Link } from 'react-router-dom';
-import styled from "styled-components"
-import { getArticlesApi, searchArticleApi } from "../api/Articles";
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { styled } from 'styled-components';
 import topImage from "../../assets/recive.png";
 import backgroundImage from "../../assets/login_background.png";
-import { apiClinet } from "../api/ApiClient";
 
 interface Article {
     title: string;
@@ -135,64 +133,22 @@ const StyledLink = styled(Link)`
     }
 `;
 
-export default function AriticlesHome() {
+export default function ArticleSearchPage() {
+    const location = useLocation();
+    const data = location.state;
     const [articles, setArticles] = useState<Article[]>([])
-    const navigate = useNavigate(); 
-
+    const navigate = useNavigate()
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getArticlesApi();
-                setArticles(response.data)
-            } catch (error) {
-                // 에러 처리
-            }
-        };
-    
-        fetchData();
+        setArticles(data.data);
     }, []);
-
-    const onClick = () => {
-        console.log('글쓰기페이지로 이동')
-        navigate('/articles/save');
-    };
-
+ 
     const onLogout = () => {
         console.log('로그아웃');
         navigate('/');
     };
 
-    const onSearch = () => {
-        const searchArticle = async () => {  
-            try{
-                const response = await searchArticleApi(selectedValue, keyword)
-                if(response.status === 200){
-                    console.log(response)
-                    if(response.data.length === 0){
-                        window.alert('일치하는 게시글이 없습니다.')
-                    }
-                    else{
-                        console.log(response.data)
-                        navigate('/articles/search', { state: { data: response.data } })
-                    }
-                }
-            }
-            catch(e){
-                console.log(e)
-            }  
-        };
-        searchArticle();
-    };
 
-    const [selectedValue, setSelectedValue] = useState('');
-    const [keyword, setKeyword] = useState('');
-    const handleSelectChange = (event: any) => {
-        setSelectedValue(event.target.value);
-    };
-    const handleKeywordChange = (event: any) => {
-        setKeyword(event.target.value);
-    }
     return(
         <Wrapper>
             <LogoutButton onClick={onLogout}>Logout</LogoutButton>
@@ -211,9 +167,9 @@ export default function AriticlesHome() {
                             return (
                                 <tr key={index}>
                                     <Td1>
-                                        <StyledLink to={`/articles/${article.id}`}> {/* ${article.id} */}
+                                        {/* <StyledLink to={`/articles/${article.id}`}> ${article.id} */}
                                             {article.title}
-                                        </StyledLink>
+                                        {/* </StyledLink> */}
                                     </Td1>
                                     <Td2>{article.hashtag}</Td2>
                                     <Td2>{article.nickname}</Td2>
@@ -225,36 +181,8 @@ export default function AriticlesHome() {
                 </Table>
             </TableContainer>
             <ButtonContainer>
-            {/* <label for="pet-select">Choose a pet:</label> */}
-                <select id="pet-select" value={selectedValue} onChange={handleSelectChange}>
-                    <option value="">선택</option>
-                    <option value="TITLE">제목</option>
-                    <option value="CONTENT">내용</option>
-                    <option value="ID">아이디</option>
-                    <option value="NICKNAME">닉네임</option>
-                    <option value="HASHTAG">해시태그</option>
-                </select>
-
-                <Input type="text" placeholder="입력하세요."onChange={handleKeywordChange}/>
-                <InputButton onClick={onSearch}>검색</InputButton>
-                <BottomButton>
-                    <BottomButtonText onClick={onClick}>
-                        게시글 작성
-                    </BottomButtonText>
-                </BottomButton>
+    
             </ButtonContainer>
         </Wrapper>
     )
 }
-
-/* 
-{auth.isAuthenticated ? (
-    <>
-        <WelcomeMessage>Welcome, {auth.username}!</WelcomeMessage>
-        <MoveButton onClick={() => navigate("/articles")}>Go to Board</MoveButton>
-        <LoginButton onClick={handleLogout}>Logout</LoginButton>
-    </>
-    ) : (
-
-    )}
-*/

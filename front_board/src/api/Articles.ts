@@ -6,10 +6,11 @@ interface Article {
     hashtag: string;
 }
 
-interface ArticleComment {
-  id: string | undefined;
-  nickname: string
-  content: string
+interface updateArticle{
+    title: string;
+    content: string;
+    hashtag: string;
+    id: string|undefined;
 }
 
 export const getArticlesApi =
@@ -21,14 +22,18 @@ export const getArticleApi =
 export const postArticlesApi =
 (article: Article) => apiClinet.post('/api/articles', article)
 
-export const postCommentApi =
-(article: ArticleComment) => apiClinet.post(`/api/articles/${article.id}/articleComment`, article)
-
-export const getCommentListApi =
-(article: ArticleComment) => apiClinet.get('/api/articleComment', article)
-
 export const deleteArticleApi =
 (id: string | undefined) => apiClinet.delete(`/api/articles/${id}`)
 
-export const putArticleApi = 
-(id: string | undefined) => apiClinet.put(`/api/articles/${id}`)
+// /api/articles/{article-id}
+export const putArticleApi =
+(id: string | undefined, artcle : Article) => apiClinet.put(`/api/articles/${id}`)
+
+export const searchArticleApi = 
+(type: string | undefined, keyword: string | undefined) => apiClinet.get(`/api/articles/search`, {
+    params: {
+    type: type,
+    keyword: keyword,
+}
+});
+
