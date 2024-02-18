@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.jyp_board'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.6-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
@@ -64,7 +64,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
 	//스웨거
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+//	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
 
 
 }

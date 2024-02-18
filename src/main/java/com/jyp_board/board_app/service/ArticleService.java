@@ -1,23 +1,31 @@
 package com.jyp_board.board_app.service;
 
 import com.jyp_board.board_app.domain.Article;
+import com.jyp_board.board_app.domain.ArticleComment;
 import com.jyp_board.board_app.domain.UserAccount;
 import com.jyp_board.board_app.domain.type.SearchType;
 import com.jyp_board.board_app.dto.ArticleDto;
+import com.jyp_board.board_app.dto.request.ArticleCommentRequest;
 import com.jyp_board.board_app.dto.request.ArticleRequest;
+import com.jyp_board.board_app.dto.request.ChatGPTRequest;
 import com.jyp_board.board_app.dto.response.ArticleResponse;
 import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.ArticleWithCommentDto;
+import com.jyp_board.board_app.dto.response.ChatGPTResponse;
+import com.jyp_board.board_app.repository.ArticleCommentRepository;
 import com.jyp_board.board_app.repository.ArticleRepository;
 import com.jyp_board.board_app.repository.UserAccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,8 +35,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ArticleService {
+    @Value("${openai.model}")
+    private String model;
+
+    @Value("${openai.api.url}")
+    private String apiURL;
+
+
+    private final RestTemplate template;
+
     private final ArticleRepository articleRepository;
     private final UserAccountRepository userAccountRepository;
+    private final ArticleCommentRepository articleCommentRepository;
 
     // READ 메소드 구현
     @Transactional(readOnly = true)
@@ -58,6 +76,24 @@ public class ArticleService {
                     articleRequest.hashtag()
             );
             articleRepository.save(article);
+
+            // 여기서 gpt 호출 해야함 ..
+            ChatGPTRequest request = new ChatGPTRequest(model, articleRequest.content());
+            ChatGPTResponse chatGPTResponse =  template.postForObject(apiURL, request, ChatGPTResponse.class);
+            String answer = chatGPTResponse.getChoices().get(0).getMessage().getContent();
+
+            if (answer.length() > 500) {
+                answer = answer.substring(0, 500);
+            }
+
+            // GPT 답변을 답글로 달아야 함
+            ArticleComment articleComment = ArticleComment.of(
+                    article,
+                    user,
+                    answer
+            );
+            articleCommentRepository.save(articleComment);
+
             return ResponseEntity.ok("게시글 작성이 완료되었습니다.");
         }
         return ResponseEntity.badRequest().body("존재하지 않은 회원입니다.");
