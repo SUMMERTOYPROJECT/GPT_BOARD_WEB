@@ -1,9 +1,10 @@
-import { useEffect, useState  } from "react";
+import { ReactEventHandler, ReactHTML, ReactHTMLElement, useEffect, useState  } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import styled from "styled-components"
-import { getArticlesApi } from "../api/Articles";
+import { getArticlesApi, searchArticleApi } from "../api/Articles";
 import topImage from "../../assets/recive.png";
 import backgroundImage from "../../assets/login_background.png";
+import { apiClinet } from "../api/ApiClient";
 
 interface Article {
     title: string;
@@ -22,6 +23,12 @@ const HeaderContainer = styled.div`
     width: 20vw;
     margin-bottom: -10.4rem;
     margin-left: 20rem;
+    @media (max-width: 768px) {
+        width: 40vw;
+        height: 300px;
+        margin-left: 10rem;
+        margin-top: -5rem;
+    }
 `;
 const Wrapper = styled.div`
     //background-image: url(${backgroundImage});
@@ -46,6 +53,12 @@ const LogoutButton = styled.button`
     background-color: transparent;
     color: #e59a0e;
   }
+
+  @media (max-width: 768px) {
+        font-size: 2vw;
+        width: 30%;
+        margin-left: 60%;
+    }
 `;
 const TableContainer = styled.div`
     display: flex;
@@ -63,32 +76,55 @@ const ButtonContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
     margin-top: 1%;
     width: 100%; 
     height: 100%;
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        //align-items: stretch;
+        width: 'auto';
+    }
 `;
 const Input = styled.input`
     padding:  10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    margin-right: 10px; // 마진 감소
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+        width: 47%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
 `;
 const InputButton = styled.button`
+    min-width: 50px; 
     width: 5%;
-    height: 2rem;
-    border-radius: 5px;
-    border: none;
+    height: 2.5rem;
+    border-radius: 10px;
     background-color: #0e6be5;
     color: white;
     font-size: 15px;
     margin-left: 1%;
     transition: background-color 0.3s;
+    margin-left: 1%;
+    cursor: pointer;
+    border: none;
     &:hover {
         background-color: #e59a0e;
     }
+    @media (max-width: 768px) {
+        font-size: 15px;
+        width: 50%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
 `;
 const BottomButton = styled.button`
-    margin-left: 35%;
+    min-width: 90px; 
+    margin-left: 30%;
     width: 7%;
     height: 60%;
     border-radius: 10px;
@@ -97,9 +133,17 @@ const BottomButton = styled.button`
     font-size: 15px;
     border: none;
     cursor: pointer;
+    //margin-left: 5%;
+
     transition: background-color 0.3s;
     &:hover {
         background-color: #e59a0e;
+    }
+    @media (max-width: 768px) {
+        font-size: 12px;
+        width: 50%;
+        //margin-right: 20rem;
+        margin-left: 0;
     }
 `;
 const BottomButtonText = styled.h2`
@@ -133,16 +177,44 @@ const StyledLink = styled(Link)`
         text-decoration: underline;
     }
 `;
+const StyledSelect = styled.select`
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #333;
+  font-size: 15px;
+  margin-right: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 8px;
+    //margin-left: 24rem;
+    margin-right: 0; // 화면이 작을 때 마진 제거
+    margin-bottom: 10px;
+    width: 50%;
+  }
+
+  &:hover {
+    border-color: #0e6be5;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #e59a0e;
+  }
+`;
+
 
 export default function AriticlesHome() {
     const [articles, setArticles] = useState<Article[]>([])
     const navigate = useNavigate(); 
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await getArticlesApi();
-                console.log(response.data)
                 setArticles(response.data)
             } catch (error) {
                 // 에러 처리
@@ -162,6 +234,36 @@ export default function AriticlesHome() {
         navigate('/');
     };
 
+    const onSearch = () => {
+        const searchArticle = async () => {  
+            try{
+                const response = await searchArticleApi(selectedValue, keyword)
+                if(response.status === 200){
+                    console.log(response)
+                    if(response.data.length === 0){
+                        window.alert('일치하는 게시글이 없습니다.')
+                    }
+                    else{
+                        console.log(response.data)
+                        navigate('/articles/search', { state: { data: response.data } })
+                    }
+                }
+            }
+            catch(e){
+                console.log(e)
+            }  
+        };
+        searchArticle();
+    };
+
+    const [selectedValue, setSelectedValue] = useState('');
+    const [keyword, setKeyword] = useState('');
+    const handleSelectChange = (event: any) => {
+        setSelectedValue(event.target.value);
+    };
+    const handleKeywordChange = (event: any) => {
+        setKeyword(event.target.value);
+    }
     return(
         <Wrapper>
             <LogoutButton onClick={onLogout}>Logout</LogoutButton>
@@ -194,8 +296,18 @@ export default function AriticlesHome() {
                 </Table>
             </TableContainer>
             <ButtonContainer>
-                <Input type="text" placeholder="입력하세요."/>
-                <InputButton>검색</InputButton>
+            {/* <label for="pet-select">Choose a pet:</label> */}
+                <StyledSelect id="pet-select" value={selectedValue} onChange={handleSelectChange}>
+                    <option value="">선택</option>
+                    <option value="TITLE">제목</option>
+                    <option value="CONTENT">내용</option>
+                    <option value="ID">아이디</option>
+                    <option value="NICKNAME">닉네임</option>
+                    <option value="HASHTAG">해시태그</option>
+                </StyledSelect>
+
+                <Input type="text" placeholder="입력하세요."onChange={handleKeywordChange}/>
+                <InputButton onClick={onSearch}>검색</InputButton>
                 <BottomButton>
                     <BottomButtonText onClick={onClick}>
                         게시글 작성
