@@ -23,6 +23,12 @@ const HeaderContainer = styled.div`
     width: 43vw;
     margin-bottom: 0rem;
     margin-left: 27rem;
+    @media (max-width: 768px) {
+        font-size: 15px;
+        width: 40%;
+        margin-left: 15rem;
+        margin-bottom: -2rem;
+    }
 `;
 const InputTitle = styled.input`
     width: 60%;
@@ -75,6 +81,10 @@ const WriteButton = styled.button`
     transition: background-color 0.3s;
     &:hover {
         background-color: #e59a0e;
+    }
+    @media (max-width: 768px) {
+        width: 20%;
+        margin-left: 19rem;
     }
 `;
 

@@ -45,12 +45,6 @@ const ButtonsContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 `;
-const CommentText = styled.text`
-    font-size: 18px;
-    color: black;
-    margin-right: 36rem;
-    margin-top: 3rem;
-`;
 const CommentInputGroup = styled.div`
     display: flex;
     align-items: center;
@@ -85,6 +79,12 @@ const CommentButton = styled.button`
     transition: background-color 0.3s;
     &:hover {
         background-color: #e59a0e;
+    }
+    @media (max-width: 768px) {
+        font-size: 12px;
+        width: 20%;
+        margin-left: 5;
+        margin-bottom: 10px;
     }
 `;
 const CommentList = styled.table`
@@ -222,15 +222,10 @@ export default function CommentComponent(){
         putArticleComment();
     };
 
-    const onEditBack = () => {
-        
-    };
-
     
     return(
         <>
             <CommentContainer>
-                    <CommentText>댓글 :</CommentText>
                 <CommentInputGroup>
                     <CommentInput value = {content} onChange={(e) => setContent(e.target.value)} placeholder="댓글을 입력해주세요."/>
                     <CommentButton onClick={onCommentButton}>등록</CommentButton>

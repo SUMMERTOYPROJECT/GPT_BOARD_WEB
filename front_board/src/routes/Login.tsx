@@ -34,7 +34,7 @@ const CenterBox = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 35%;
-  max-width: 500px;
+  max-width: '100%';
   height: auto;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
@@ -70,15 +70,16 @@ const SubmitButton = styled(Input).attrs({ type: 'submit' })`
   font-size: 1.5vw;
   border-radius: 5px;
   width: 85%;
-  height: 5vh;
+  //height: 5vh;
   background-color: #0e6be5;
   color: white;
   cursor: pointer;
-  border: none;
+  border: 1px solid #0e6be5;
   margin-bottom: 1rem;
 
   &:hover {
     background-color: #e59a0e;
+    border: 1px solid #e59a0e;
     color: white;
   }
 `;
