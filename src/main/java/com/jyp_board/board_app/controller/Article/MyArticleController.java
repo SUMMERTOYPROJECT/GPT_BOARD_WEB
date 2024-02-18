@@ -2,11 +2,15 @@ package com.jyp_board.board_app.controller.Article;
 
 import com.jyp_board.board_app.dto.ArticleUpdateDto;
 import com.jyp_board.board_app.dto.request.ArticleRequest;
+import com.jyp_board.board_app.dto.request.ChatGPTRequest;
 import com.jyp_board.board_app.dto.response.ArticleResponse;
+import com.jyp_board.board_app.dto.response.ChatGPTResponse;
 import com.jyp_board.board_app.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -14,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MyArticleController {
+
     private final ArticleService articleService;
 
     @GetMapping("/articles")
