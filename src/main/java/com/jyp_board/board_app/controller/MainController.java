@@ -17,6 +17,10 @@ public class MainController {
 
     private final UserAccountService userAccountService;
 
+    @GetMapping("/")
+    public String mainAPI() {
+        return "main route";
+    }
     @PostMapping("/sign-up")
     public ResponseEntity<String> join(@RequestBody UserAccountDto userAccountDto){
         return userAccountService.joinUser(userAccountDto);
