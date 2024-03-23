@@ -18,6 +18,7 @@
 
 
 ## 🔎시스템 구성도
+<img width="1434" alt="스크린샷 2024-03-23 오후 8 08 38" src="https://github.com/SUMMERTOYPROJECT/GPT_BOARD_WEB/assets/99342700/bb251de1-9d2a-4321-a4e5-193041033f66">
 
 ## 🦉 팀 소개 및 역할
 
