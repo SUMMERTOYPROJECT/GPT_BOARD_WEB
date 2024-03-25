@@ -12,7 +12,7 @@ import java.util.Objects;
         indexes = {
                 @Index(columnList = "email", unique = true),
                 @Index(columnList = "createAt"),
-                @Index(columnList = "createBy")
+//                @Index(columnList = "createBy")
         })
 @Entity
 public class UserAccount extends BaseEntityConfig {
