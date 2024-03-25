@@ -18,7 +18,7 @@
 
 
 ## 🔎시스템 구성도
-<img width="986" alt="image" src="https://github.com/SUMMERTOYPROJECT/GPT_BOARD_WEB/assets/99342700/cfc813fa-9719-40ed-b8bb-c1fe926a3bca">
+<img width="979" alt="image" src="https://github.com/SUMMERTOYPROJECT/GPT_BOARD_WEB/assets/99342700/fdeae824-cc98-4a39-a458-96e3798b0e91">
 
 ## 🦉 팀 소개 및 역할
 
