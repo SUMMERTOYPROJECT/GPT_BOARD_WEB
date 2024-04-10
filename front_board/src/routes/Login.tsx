@@ -2,7 +2,7 @@ import styled, {createGlobalStyle} from "styled-components";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../security/AuthContext"; // 가정: AuthContext가 로그인 상태를 관리
-import backgroundImage from "../../assets/login_background.png";
+import backgroundImage from "../../assets/1.webp";
 
 const GlobalStyle = createGlobalStyle`
   html, body {
@@ -18,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 const Wrapper = styled.div`
   background-image: url(${backgroundImage});
-  background-size: 80%;
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;

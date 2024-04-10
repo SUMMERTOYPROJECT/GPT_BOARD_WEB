@@ -1,10 +1,10 @@
-import { ReactEventHandler, ReactHTML, ReactHTMLElement, useEffect, useState  } from "react";
+import { useEffect, useState  } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import styled from "styled-components"
+// import styles from '../styles/tableStyles'; 
 import { getArticlesApi, searchArticleApi } from "../api/Articles";
-import topImage from "../../assets/recive.png";
+import topImage from "../../assets/2.webp";
 import backgroundImage from "../../assets/login_background.png";
-import { apiClinet } from "../api/ApiClient";
 
 interface Article {
     title: string;
@@ -16,13 +16,13 @@ interface Article {
 
 const HeaderContainer = styled.div`
     background-image: url(${topImage});
-    background-size: contain;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 20vh;
-    width: 20vw;
-    margin-bottom: -10.4rem;
-    margin-left: 20rem;
+    height: 30vh;
+    width: 59vw;
+    margin-bottom: -9rem;
+    margin-left: 18rem;
     @media (max-width: 768px) {
         width: 40vw;
         height: 300px;
@@ -288,7 +288,7 @@ export default function AriticlesHome() {
                                     </Td1>
                                     <Td2>{article.hashtag}</Td2>
                                     <Td2>{article.nickname}</Td2>
-                                    <Td2>{formattedDate}</Td2> {/* 변환된 날짜 사용 */}
+                                    <Td2>{formattedDate}</Td2>
                                 </tr>
                             );
                         })}
